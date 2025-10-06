@@ -1,0 +1,47 @@
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Sidebar buttons */
+.tab-btn {
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.tab-btn::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+  border-radius: 3px;
+}
+
+.tab-btn.active-tab {
+  background-color: white;
+  color: black;
+  border: 1px solid white;
+}
+
+.tab-btn.active-tab::before {
+  background-color: white;
+}
+
+button:hover {
+  transform: scale(1.02);
+}
+
+/* Fade animation */
+.fade {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.fade.show {
+  opacity: 1;
+}
