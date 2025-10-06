@@ -16,6 +16,8 @@ const meterInput = document.getElementById("meterInput");
 const addButton = document.getElementById("addButton");
 const searchInput = document.getElementById("searchInput");
 const customerTableBody = document.getElementById("customerTableBody");
+const resultsContainer = document.getElementById("resultsContainer");
+
 
 // Add fade classes to sections
 searchSection.classList.add("fade");
@@ -56,29 +58,43 @@ async function renderCustomers() {
   const searchTerm = searchInput.value.trim().toLowerCase();
   customerTableBody.innerHTML = "";
 
-  customers
-    .filter(c =>
-      c.name.toLowerCase().includes(searchTerm) ||
-      c.phone.toLowerCase().includes(searchTerm) ||
-      c.meter_id.toLowerCase().includes(searchTerm)
-    )
-    .forEach(c => {
-      const row = document.createElement("tr");
-      row.classList.add("border-b", "border-white");
-      row.innerHTML = `
-        <td class="p-3">${c.name}</td>
-        <td class="p-3">${c.phone}</td>
-        <td class="p-3">${c.meter_id}</td>
-        <td class="p-3">
-          <button class="edit-btn underline" data-id="${c.id}">Edit</button>
-          <button class="delete-btn underline ml-2" data-id="${c.id}">Delete</button>
-        </td>
-      `;
-      customerTableBody.appendChild(row);
-    });
+  // Hide results if search is empty
+  if (!searchTerm) {
+    resultsContainer.classList.add("hidden");
+    return;
+  }
+
+  const filtered = customers.filter(c =>
+    c.name.toLowerCase().includes(searchTerm) ||
+    c.phone.toLowerCase().includes(searchTerm) ||
+    c.meter_id.toLowerCase().includes(searchTerm)
+  );
+
+  if (filtered.length === 0) {
+    resultsContainer.classList.add("hidden");
+    return;
+  }
+
+  resultsContainer.classList.remove("hidden");
+
+  filtered.forEach(c => {
+    const row = document.createElement("tr");
+    row.classList.add("border-b", "border-white");
+    row.innerHTML = `
+      <td class="p-3">${c.name}</td>
+      <td class="p-3">${c.phone}</td>
+      <td class="p-3">${c.meter_id}</td>
+      <td class="p-3">
+        <button class="edit-btn underline" data-id="${c.id}">Edit</button>
+        <button class="delete-btn underline ml-2" data-id="${c.id}">Delete</button>
+      </td>
+    `;
+    customerTableBody.appendChild(row);
+  });
 
   setupActionButtons();
 }
+
 
 function setupActionButtons() {
   document.querySelectorAll(".delete-btn").forEach(btn => {

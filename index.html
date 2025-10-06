@@ -26,21 +26,24 @@
   <main class="flex-1 flex flex-col items-center justify-center p-8">
     <!-- Search Section -->
     <section id="search-section" class="w-full max-w-2xl hidden">
-      <input id="searchInput" type="text" placeholder="Search by name, phone or meter ID..."
-             class="w-full bg-black text-white placeholder-gray-500 p-4 rounded border border-white focus:outline-none mb-6" />
+  <input id="searchInput" type="text" placeholder="Search by name, phone or meter ID..."
+         class="w-full bg-black text-white placeholder-gray-500 p-4 rounded border border-white focus:outline-none mb-6" />
 
-      <table class="w-full border border-white rounded">
-        <thead>
-          <tr class="bg-black text-white border-b border-white">
-            <th class="p-3 text-left">Name</th>
-            <th class="p-3 text-left">Phone</th>
-            <th class="p-3 text-left">Meter ID</th>
-            <th class="p-3 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody id="customerTableBody"></tbody>
-      </table>
-    </section>
+  <div id="resultsContainer" class="hidden">
+    <table class="w-full border border-white rounded">
+      <thead>
+        <tr class="bg-black text-white border-b border-white">
+          <th class="p-3 text-left">Name</th>
+          <th class="p-3 text-left">Phone</th>
+          <th class="p-3 text-left">Meter ID</th>
+          <th class="p-3 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="customerTableBody"></tbody>
+    </table>
+  </div>
+</section>
+
 
     <!-- Add Section -->
     <section id="add-section" class="w-full max-w-md hidden">
