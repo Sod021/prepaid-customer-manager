@@ -81,18 +81,31 @@ async function renderCustomers() {
     const row = document.createElement("tr");
     row.classList.add("border-b", "border-white");
     row.innerHTML = `
-      <td class="p-3">${c.name}</td>
-      <td class="p-3">${c.phone}</td>
-      <td class="p-3">${c.meter_id}</td>
-      <td class="p-3">
-        <button class="edit-btn underline" data-id="${c.id}">Edit</button>
-        <button class="delete-btn underline ml-2" data-id="${c.id}">Delete</button>
-      </td>
-    `;
+  <td class="p-3">${c.name}</td>
+  <td class="p-3 flex items-center space-x-2">
+    <span>${c.phone}</span>
+    <button class="copy-btn" data-value="${c.phone}" title="Copy phone">
+      📋
+    </button>
+  </td>
+  <td class="p-3 flex items-center space-x-2">
+    <span>${c.meter_id}</span>
+    <button class="copy-btn" data-value="${c.meter_id}" title="Copy meter ID">
+      📋
+    </button>
+  </td>
+  <td class="p-3">
+    <button class="edit-btn underline" data-id="${c.id}">Edit</button>
+    <button class="delete-btn underline ml-2" data-id="${c.id}">Delete</button>
+  </td>
+`;
+
     customerTableBody.appendChild(row);
   });
 
   setupActionButtons();
+  setupCopyButtons();
+
 }
 
 
@@ -114,6 +127,23 @@ function setupActionButtons() {
     };
   });
 }
+
+
+function setupCopyButtons() {
+  document.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.onclick = async () => {
+      const value = btn.dataset.value;
+      try {
+        await navigator.clipboard.writeText(value);
+        btn.textContent = "✅"; // temporary feedback
+        setTimeout(() => (btn.textContent = "📋"), 1500);
+      } catch (err) {
+        alert("Failed to copy text.");
+      }
+    };
+  });
+}
+
 
 addButton.onclick = async () => {
   const name = nameInput.value.trim();
