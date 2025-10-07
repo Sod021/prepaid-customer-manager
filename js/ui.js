@@ -87,14 +87,26 @@ async function renderCustomers() {
     <td class="p-3 align-middle">
       <span class="inline-flex items-center gap-2">
         ${c.phone}
-        <button class="copy-btn" data-value="${c.phone}" title="Copy phone">📋</button>
+        <button class="copy-btn" data-value="${c.phone}" title="Copy phone">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+  </svg>
+</button>
+
       </span>
     </td>
 
     <td class="p-3 align-middle">
       <span class="inline-flex items-center gap-2">
         ${c.meter_id}
-        <button class="copy-btn" data-value="${c.meter_id}" title="Copy meter ID">📋</button>
+        <button class="copy-btn" data-value="${c.meter_id}" title="Copy meter ID">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+  </svg>
+</button>
+
       </span>
     </td>
 
@@ -140,14 +152,22 @@ function setupCopyButtons() {
       const value = btn.dataset.value;
       try {
         await navigator.clipboard.writeText(value);
-        btn.textContent = "✅"; // temporary feedback
-        setTimeout(() => (btn.textContent = "📋"), 1500);
+
+        // Replace the SVG temporarily with a check icon
+        const original = btn.innerHTML;
+        btn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        `;
+        setTimeout(() => (btn.innerHTML = original), 1500);
       } catch (err) {
         alert("Failed to copy text.");
       }
     };
   });
 }
+
 
 
 addButton.onclick = async () => {

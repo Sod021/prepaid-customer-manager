@@ -51,10 +51,10 @@ button:hover {
   border: none;
   cursor: pointer;
   color: white;
-  font-size: 1rem;
-  transition: transform 0.2s;
+  transition: transform 0.2s, color 0.2s;
 }
-
 .copy-btn:hover {
   transform: scale(1.2);
+  color: #22c55e; /* Tailwind's green-500 */
 }
+
