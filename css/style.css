@@ -59,9 +59,10 @@ button:hover {
 }
 
 #welcomeText {
+ /* text-shadow: 0 0 10px rgba(255, 165, 0, 0.3); */
   opacity: 0;
   transform: translateY(-10px);
-  animation: fadeIn 1.2s ease-out forwards;
+  animation: fadeIn 1.5s ease-out forwards;
 }
 
 @keyframes fadeIn {
@@ -70,3 +71,17 @@ button:hover {
     transform: translateY(0);
   }
 }
+
+@keyframes wave {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(15deg); }
+  100% { transform: rotate(0deg); }
+}
+
+#welcomeText svg {
+  transform-origin: bottom center;
+  animation: wave 2.8s ease-in-out;
+}
+

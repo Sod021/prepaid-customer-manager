@@ -26,13 +26,18 @@
   <main class="flex-1 flex flex-col items-center justify-center p-8">
     <!-- Search Section -->
     <section id="search-section" class="w-full max-w-2xl hidden">
- <h2 id="welcomeText" class="text-5xl font-extrabold mb-8 text-center bg-gradient-to-r from-green-400 via-emerald-300 to-teal-400 bg-clip-text text-transparent">
-  Welcome Olady 👋
+ <h2 id="welcomeText" class="text-4xl font-normal mb-8 text-center text-white flex items-center justify-center gap-3">
+  <span>Welcome Olady</span>
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364l-1.414-1.414M7.05 7.05L5.636 5.636m12.728 0L17.05 7.05M7.05 16.95l-1.414 1.414M12 8a4 4 0 1 0 4 4 4 4 0 0 0-4-4z" />
+  </svg>
 </h2>
 
 
+
   <input id="searchInput" type="text" placeholder="Search by name, phone or meter ID..."
-         class="w-full bg-black text-white placeholder-gray-500 p-4 rounded border border-white focus:outline-none mb-6" />
+  class="w-full bg-black text-white placeholder-gray-500 p-4 rounded-full border border-white focus:outline-none mb-6 transition" />
+
 
 
   <div id="resultsContainer" class="hidden">
