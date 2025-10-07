@@ -100,6 +100,7 @@ async function renderCustomers() {
   </td>
 `;
 
+
     customerTableBody.appendChild(row);
   });
 
