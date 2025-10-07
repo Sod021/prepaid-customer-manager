@@ -80,34 +80,34 @@ async function renderCustomers() {
   filtered.forEach(c => {
     const row = document.createElement("tr");
     row.classList.add("border-b", "border-white");
-    row.innerHTML = `
-  <td class="p-3">${c.name}</td>
-  <td class="p-3 flex items-center space-x-2">
-    <span>${c.phone}</span>
-    <button class="copy-btn" data-value="${c.phone}" title="Copy phone">
-      📋
-    </button>
-  </td>
-  <td class="p-3 flex items-center space-x-2">
-    <span>${c.meter_id}</span>
-    <button class="copy-btn" data-value="${c.meter_id}" title="Copy meter ID">
-      📋
-    </button>
-  </td>
-  <td class="p-3">
-    <button class="edit-btn underline" data-id="${c.id}">Edit</button>
-    <button class="delete-btn underline ml-2" data-id="${c.id}">Delete</button>
-  </td>
-`;
 
+    // ✅ Proper 4-column layout
+    row.innerHTML = `
+      <td class="p-3">${c.name}</td>
+
+      <td class="p-3 flex items-center justify-between">
+        <span>${c.phone}</span>
+        <button class="copy-btn" data-value="${c.phone}" title="Copy phone">📋</button>
+      </td>
+
+      <td class="p-3 flex items-center justify-between">
+        <span>${c.meter_id}</span>
+        <button class="copy-btn" data-value="${c.meter_id}" title="Copy meter ID">📋</button>
+      </td>
+
+      <td class="p-3">
+        <button class="edit-btn underline" data-id="${c.id}">Edit</button>
+        <button class="delete-btn underline ml-2" data-id="${c.id}">Delete</button>
+      </td>
+    `;
 
     customerTableBody.appendChild(row);
   });
 
   setupActionButtons();
   setupCopyButtons();
-
 }
+
 
 
 function setupActionButtons() {
