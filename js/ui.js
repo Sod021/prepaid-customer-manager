@@ -146,9 +146,12 @@ async function renderCustomers() {
       </td>
 
 
-      <td class="p-3 align-middle max-w-[180px] truncate" title="${c.meter_name || '-'}">
-  ${c.meter_name || '-'}
-</td>
+      <td class="p-3 align-middle max-w-[100px]">
+        <span class="block truncate" title="${c.meter_name || '-'}">
+          ${c.meter_name || '-'}
+        </span>
+      </td>
+
 
 
       <td class="p-3 align-middle">
