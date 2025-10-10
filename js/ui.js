@@ -134,15 +134,52 @@ function setupActionButtons() {
     };
   });
 
-  document.querySelectorAll(".edit-btn").forEach(btn => {
-    btn.onclick = async () => {
-      const newName = prompt("Enter new name:");
-      const newPhone = prompt("Enter new phone:");
-      const newMeter = prompt("Enter new meter ID:");
-      await updateCustomer(btn.dataset.id, newName, newPhone, newMeter);
+ document.querySelectorAll(".edit-btn").forEach(btn => {
+  btn.onclick = async () => {
+    const id = btn.dataset.id;
+
+    // Fetch all customers again so we can get the right one
+    const customers = await getCustomers();
+    const customer = customers.find(c => c.id === id);
+
+    const modal = document.getElementById("editModal");
+    const nameInput = document.getElementById("editName");
+    const phoneInput = document.getElementById("editPhone");
+    const meterInput = document.getElementById("editMeter");
+    const saveBtn = document.getElementById("saveEditBtn");
+    const cancelBtn = document.getElementById("cancelEditBtn");
+
+    // Fill inputs with existing data
+    nameInput.value = customer.name;
+    phoneInput.value = customer.phone;
+    meterInput.value = customer.meter_id;
+
+    // Show modal
+    modal.classList.remove("hidden");
+
+    // Handle cancel
+    cancelBtn.onclick = () => {
+      modal.classList.add("hidden");
+    };
+
+    // Handle save
+    saveBtn.onclick = async () => {
+      const newName = nameInput.value.trim();
+      const newPhone = phoneInput.value.trim();
+      const newMeter = meterInput.value.trim();
+
+      if (!newName || !newPhone || !newMeter) {
+        alert("Please fill in all fields");
+        return;
+      }
+
+      await updateCustomer(id, newName, newPhone, newMeter);
+      modal.classList.add("hidden");
       renderCustomers();
     };
-  });
+  };
+});
+
 }
 
 
