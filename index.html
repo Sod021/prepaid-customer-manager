@@ -45,8 +45,9 @@
       <thead>
         <tr class="bg-black text-white border-b border-white">
           <th class="p-3 text-left">Name</th>
-          <th class="p-3 text-left">Phone</th>
           <th class="p-3 text-left">Meter ID</th>
+          <th class="p-3 text-left">Phone</th>
+          <th class="p-3 text-left">Meter Name</th>
           <th class="p-3 text-left">Actions</th>
         </tr>
       </thead>
@@ -66,6 +67,9 @@
                class="w-full mb-3 p-3 rounded bg-black text-white border border-white focus:outline-none" />
         <input id="meterInput" type="text" placeholder="Meter ID"
                class="w-full mb-3 p-3 rounded bg-black text-white border border-white focus:outline-none" />
+        <input id="meterNameInput" type="text" placeholder="Meter Name (optional)"
+               class="w-full mb-3 p-3 rounded bg-black text-white border border-white focus:outline-none" />
+       
         <button id="addButton"
                 class="w-full bg-white text-black p-3 rounded hover:bg-black hover:text-white border border-white transition">
           Add Customer
@@ -82,30 +86,43 @@
 
   <div class="bg-black border border-white rounded-xl p-6 w-80 text-center">
     <h2 class="text-xl text-white mb-4">Edit Customer</h2>
+
     <input
       id="editName"
       type="text"
       placeholder="Name"
       class="w-full mb-3 p-3 rounded-full bg-black border border-white text-white placeholder-gray-400 focus:outline-none focus:border-orange-400"
     />
+
     <input
       id="editPhone"
       type="text"
       placeholder="Phone"
       class="w-full mb-3 p-3 rounded-full bg-black border border-white text-white placeholder-gray-400 focus:outline-none focus:border-orange-400"
     />
+
     <input
       id="editMeter"
       type="text"
       placeholder="Meter ID"
+      class="w-full mb-3 p-3 rounded-full bg-black border border-white text-white placeholder-gray-400 focus:outline-none focus:border-orange-400"
+    />
+
+    <!-- New Optional Field -->
+    <input
+      id="editMeterName"
+      type="text"
+      placeholder="Meter Name (optional)"
       class="w-full mb-5 p-3 rounded-full bg-black border border-white text-white placeholder-gray-400 focus:outline-none focus:border-orange-400"
     />
+
     <div class="flex justify-between">
       <button id="saveEditBtn" class="px-4 py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600">Save</button>
       <button id="cancelEditBtn" class="px-4 py-2 bg-gray-600 text-white rounded-full hover:bg-gray-500">Cancel</button>
     </div>
   </div>
 </div>
+
 
 
 <!-- Success Popup -->

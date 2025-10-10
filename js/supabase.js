@@ -6,28 +6,39 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// --- FETCH ALL CUSTOMERS ---
 export async function getCustomers() {
-  const { data, error } = await supabase.from('customers').select('*');
+  const { data, error } = await supabase
+    .from('customers')
+    .select('*')
+    .order('id', { ascending: true });
+
   if (error) throw error;
   return data;
 }
 
-export async function addCustomer(name, phone, meter_id) {
+// --- ADD CUSTOMER (with optional meter_name) ---
+export async function addCustomer(name, phone, meter_id, meter_name = null) {
   const { error } = await supabase
     .from('customers')
-    .insert([{ name, phone, meter_id }]);
+    .insert([{ name, phone, meter_id, meter_name }]);
   if (error) throw error;
 }
 
+// --- DELETE CUSTOMER ---
 export async function deleteCustomer(id) {
-  const { error } = await supabase.from('customers').delete().eq('id', id);
+  const { error } = await supabase
+    .from('customers')
+    .delete()
+    .eq('id', id);
   if (error) throw error;
 }
 
-export async function updateCustomer(id, name, phone, meter_id) {
+// --- UPDATE CUSTOMER (with optional meter_name) ---
+export async function updateCustomer(id, name, phone, meter_id, meter_name = null) {
   const { error } = await supabase
     .from('customers')
-    .update({ name, phone, meter_id })
+    .update({ name, phone, meter_id, meter_name })
     .eq('id', id);
   if (error) throw error;
 }

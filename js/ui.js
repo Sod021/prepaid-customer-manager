@@ -13,6 +13,7 @@ const addSection = document.getElementById("add-section");
 const nameInput = document.getElementById("nameInput");
 const phoneInput = document.getElementById("phoneInput");
 const meterInput = document.getElementById("meterInput");
+const meterNameInput = document.getElementById("meterNameInput");
 const addButton = document.getElementById("addButton");
 const searchInput = document.getElementById("searchInput");
 const customerTableBody = document.getElementById("customerTableBody");
@@ -85,7 +86,6 @@ function hideSuccess() {
   setTimeout(() => popup.classList.add("hidden"), 500); // wait for fade out
 }
 
-
 // --- CUSTOMER RENDERING ---
 async function renderCustomers() {
   const customers = await getCustomers();
@@ -101,7 +101,8 @@ async function renderCustomers() {
   const filtered = customers.filter(c =>
     c.name.toLowerCase().includes(searchTerm) ||
     c.phone.toLowerCase().includes(searchTerm) ||
-    c.meter_id.toLowerCase().includes(searchTerm)
+    c.meter_id.toLowerCase().includes(searchTerm) ||
+    (c.meter_name && c.meter_name.toLowerCase().includes(searchTerm))
   );
 
   if (filtered.length === 0) {
@@ -130,17 +131,9 @@ async function renderCustomers() {
         </span>
       </td>
 
-      <td class="p-3 align-middle">
-        <span class="inline-flex items-center gap-2">
-          ${c.meter_id}
-          <button class="copy-btn" data-value="${c.meter_id}" title="Copy meter ID">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-          </button>
-        </span>
-      </td>
+      <td class="p-3 align-middle">${c.meter_id}</td>
+
+      <td class="p-3 align-middle">${c.meter_name || '-'}</td>
 
       <td class="p-3 align-middle">
         <button class="edit-btn underline" data-id="${c.id}">Edit</button>
@@ -173,6 +166,7 @@ function setupActionButtons() {
       const nameInput = document.getElementById("editName");
       const phoneInput = document.getElementById("editPhone");
       const meterInput = document.getElementById("editMeter");
+      const meterNameInput = document.getElementById("editMeterName");
       const saveBtn = document.getElementById("saveEditBtn");
       const cancelBtn = document.getElementById("cancelEditBtn");
 
@@ -180,6 +174,7 @@ function setupActionButtons() {
       nameInput.value = customer.name;
       phoneInput.value = customer.phone;
       meterInput.value = customer.meter_id;
+      meterNameInput.value = customer.meter_name || "";
 
       showModal(); // 🌟 smooth fade-in modal
 
@@ -189,13 +184,14 @@ function setupActionButtons() {
         const newName = nameInput.value.trim();
         const newPhone = phoneInput.value.trim();
         const newMeter = meterInput.value.trim();
+        const newMeterName = meterNameInput.value.trim();
 
         if (!newName || !newPhone || !newMeter) {
-          alert("Please fill all fields");
+          alert("Please fill all required fields");
           return;
         }
 
-        await updateCustomer(id, newName, newPhone, newMeter);
+        await updateCustomer(id, newName, newPhone, newMeter, newMeterName);
         hideModal();
         renderCustomers();
       };
@@ -231,13 +227,14 @@ addButton.onclick = async () => {
   const name = nameInput.value.trim();
   const phone = phoneInput.value.trim();
   const meter = meterInput.value.trim();
-  if (!name || !phone || !meter) return alert("Please fill all fields");
+  const meterName = meterNameInput.value.trim();
 
-  await addCustomer(name, phone, meter);
-  nameInput.value = phoneInput.value = meterInput.value = "";
+  if (!name || !phone || !meter) return alert("Please fill all required fields");
+
+  await addCustomer(name, phone, meter, meterName || null);
+  nameInput.value = phoneInput.value = meterInput.value = meterNameInput.value = "";
   showSuccess("Customer added successfully ✅");
-  showTab("Add");
-
+  showTab("add");
 };
 
 searchInput.addEventListener("input", renderCustomers);
