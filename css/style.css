@@ -85,3 +85,21 @@ button:hover {
   animation: wave 2.8s ease-in-out;
 }
 
+
+/* Animate the fade and slight scale of the modal */
+#editModal.show {
+  opacity: 1;
+  display: flex;
+  transform: scale(1);
+}
+
+#editModal.hide {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+/* Smooth scaling for the inner content */
+#editModal > div {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+

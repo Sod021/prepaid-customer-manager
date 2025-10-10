@@ -18,7 +18,6 @@ const searchInput = document.getElementById("searchInput");
 const customerTableBody = document.getElementById("customerTableBody");
 const resultsContainer = document.getElementById("resultsContainer");
 
-
 // Add fade classes to sections
 searchSection.classList.add("fade");
 addSection.classList.add("fade");
@@ -26,7 +25,7 @@ addSection.classList.add("fade");
 // --- TAB SWITCHING WITH FADE ---
 function showTab(tab) {
   document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active-tab"));
-  
+
   // Hide both sections
   searchSection.classList.remove("show");
   addSection.classList.remove("show");
@@ -51,6 +50,20 @@ function showTab(tab) {
 searchTab.addEventListener("click", () => showTab("search"));
 addTab.addEventListener("click", () => showTab("add"));
 showTab("search"); // default view
+
+// --- SHOW / HIDE MODAL ANIMATIONS ---
+function showModal() {
+  const modal = document.getElementById("editModal");
+  modal.classList.remove("hidden", "hide");
+  modal.classList.add("show");
+}
+
+function hideModal() {
+  const modal = document.getElementById("editModal");
+  modal.classList.remove("show");
+  modal.classList.add("hide");
+  setTimeout(() => modal.classList.add("hidden"), 400); // wait for fade out
+}
 
 // --- CUSTOMER RENDERING ---
 async function renderCustomers() {
@@ -78,54 +91,50 @@ async function renderCustomers() {
   resultsContainer.classList.remove("hidden");
 
   filtered.forEach(c => {
-  const row = document.createElement("tr");
-  row.classList.add("border-b", "border-white");
+    const row = document.createElement("tr");
+    row.classList.add("border-b", "border-white");
 
-  row.innerHTML = `
-    <td class="p-3 align-middle">${c.name}</td>
+    row.innerHTML = `
+      <td class="p-3 align-middle">${c.name}</td>
 
-    <td class="p-3 align-middle">
-      <span class="inline-flex items-center gap-2">
-        ${c.phone}
-        <button class="copy-btn" data-value="${c.phone}" title="Copy phone">
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-  </svg>
-</button>
+      <td class="p-3 align-middle">
+        <span class="inline-flex items-center gap-2">
+          ${c.phone}
+          <button class="copy-btn" data-value="${c.phone}" title="Copy phone">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </span>
+      </td>
 
-      </span>
-    </td>
+      <td class="p-3 align-middle">
+        <span class="inline-flex items-center gap-2">
+          ${c.meter_id}
+          <button class="copy-btn" data-value="${c.meter_id}" title="Copy meter ID">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </span>
+      </td>
 
-    <td class="p-3 align-middle">
-      <span class="inline-flex items-center gap-2">
-        ${c.meter_id}
-        <button class="copy-btn" data-value="${c.meter_id}" title="Copy meter ID">
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-  </svg>
-</button>
+      <td class="p-3 align-middle">
+        <button class="edit-btn underline" data-id="${c.id}">Edit</button>
+        <button class="delete-btn underline ml-2" data-id="${c.id}">Delete</button>
+      </td>
+    `;
 
-      </span>
-    </td>
-
-    <td class="p-3 align-middle">
-      <button class="edit-btn underline" data-id="${c.id}">Edit</button>
-      <button class="delete-btn underline ml-2" data-id="${c.id}">Delete</button>
-    </td>
-  `;
-
-  customerTableBody.appendChild(row);
-});
-
+    customerTableBody.appendChild(row);
+  });
 
   setupActionButtons();
   setupCopyButtons();
 }
 
-
-
+// --- BUTTON ACTIONS ---
 function setupActionButtons() {
   document.querySelectorAll(".delete-btn").forEach(btn => {
     btn.onclick = async () => {
@@ -134,55 +143,46 @@ function setupActionButtons() {
     };
   });
 
- document.querySelectorAll(".edit-btn").forEach(btn => {
-  btn.onclick = async () => {
-    const id = btn.dataset.id;
+  document.querySelectorAll(".edit-btn").forEach(btn => {
+    btn.onclick = async () => {
+      const id = btn.dataset.id;
+      const customers = await getCustomers();
+      const customer = customers.find(c => c.id === id);
 
-    // Fetch all customers again so we can get the right one
-    const customers = await getCustomers();
-    const customer = customers.find(c => c.id === id);
+      const nameInput = document.getElementById("editName");
+      const phoneInput = document.getElementById("editPhone");
+      const meterInput = document.getElementById("editMeter");
+      const saveBtn = document.getElementById("saveEditBtn");
+      const cancelBtn = document.getElementById("cancelEditBtn");
 
-    const modal = document.getElementById("editModal");
-    const nameInput = document.getElementById("editName");
-    const phoneInput = document.getElementById("editPhone");
-    const meterInput = document.getElementById("editMeter");
-    const saveBtn = document.getElementById("saveEditBtn");
-    const cancelBtn = document.getElementById("cancelEditBtn");
+      // Pre-fill inputs
+      nameInput.value = customer.name;
+      phoneInput.value = customer.phone;
+      meterInput.value = customer.meter_id;
 
-    // Fill inputs with existing data
-    nameInput.value = customer.name;
-    phoneInput.value = customer.phone;
-    meterInput.value = customer.meter_id;
+      showModal(); // 🌟 smooth fade-in modal
 
-    // Show modal
-    modal.classList.remove("hidden");
+      cancelBtn.onclick = () => hideModal(); // 🌟 smooth fade-out
 
-    // Handle cancel
-    cancelBtn.onclick = () => {
-      modal.classList.add("hidden");
+      saveBtn.onclick = async () => {
+        const newName = nameInput.value.trim();
+        const newPhone = phoneInput.value.trim();
+        const newMeter = meterInput.value.trim();
+
+        if (!newName || !newPhone || !newMeter) {
+          alert("Please fill all fields");
+          return;
+        }
+
+        await updateCustomer(id, newName, newPhone, newMeter);
+        hideModal();
+        renderCustomers();
+      };
     };
-
-    // Handle save
-    saveBtn.onclick = async () => {
-      const newName = nameInput.value.trim();
-      const newPhone = phoneInput.value.trim();
-      const newMeter = meterInput.value.trim();
-
-      if (!newName || !newPhone || !newMeter) {
-        alert("Please fill in all fields");
-        return;
-      }
-
-      await updateCustomer(id, newName, newPhone, newMeter);
-      modal.classList.add("hidden");
-      renderCustomers();
-    };
-  };
-});
-
+  });
 }
 
-
+// --- COPY BUTTONS ---
 function setupCopyButtons() {
   document.querySelectorAll(".copy-btn").forEach(btn => {
     btn.onclick = async () => {
@@ -205,8 +205,7 @@ function setupCopyButtons() {
   });
 }
 
-
-
+// --- ADD CUSTOMER ---
 addButton.onclick = async () => {
   const name = nameInput.value.trim();
   const phone = phoneInput.value.trim();
