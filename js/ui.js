@@ -146,8 +146,9 @@ async function renderCustomers() {
       </td>
 
 
-      <td class="p-3 align-middle max-w-[100px]">
-        <span class="block truncate" title="${c.meter_name || '-'}">
+      <td class="p-3 align-middle max-w-[100px] relative group">
+        <span class="block truncate cursor-pointer">${c.meter_name || '-'}</span>
+        <span class="absolute bottom-full left-0 mb-2 hidden group-hover:block bg-orange-800 text-white text-sm px-5 py-1 rounded shadow-lg whitespace-nowrap z-10">
           ${c.meter_name || '-'}
         </span>
       </td>
