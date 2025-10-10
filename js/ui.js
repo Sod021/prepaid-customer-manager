@@ -235,8 +235,9 @@ addButton.onclick = async () => {
 
   await addCustomer(name, phone, meter);
   nameInput.value = phoneInput.value = meterInput.value = "";
-  alert("Customer added successfully ✅");
-  showTab("search");
+  showSuccess("Customer added successfully ✅");
+  showTab("Add");
+
 };
 
 searchInput.addEventListener("input", renderCustomers);
