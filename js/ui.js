@@ -65,6 +65,27 @@ function hideModal() {
   setTimeout(() => modal.classList.add("hidden"), 400); // wait for fade out
 }
 
+// --- SUCCESS POPUP ---
+function showSuccess(message) {
+  const popup = document.getElementById("successPopup");
+  const msgText = document.getElementById("successMessage");
+  msgText.textContent = message;
+
+  popup.classList.remove("hidden");
+  popup.classList.add("flex");
+  setTimeout(() => popup.classList.add("opacity-100"), 10); // fade in
+
+  // Hide automatically after 1.5s
+  setTimeout(() => hideSuccess(), 1500);
+}
+
+function hideSuccess() {
+  const popup = document.getElementById("successPopup");
+  popup.classList.remove("opacity-100");
+  setTimeout(() => popup.classList.add("hidden"), 500); // wait for fade out
+}
+
+
 // --- CUSTOMER RENDERING ---
 async function renderCustomers() {
   const customers = await getCustomers();

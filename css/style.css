@@ -103,3 +103,12 @@ button:hover {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+
+#successPopup {
+  opacity: 0;
+}
+
+#successPopup.opacity-100 {
+  opacity: 1;
+}
+
