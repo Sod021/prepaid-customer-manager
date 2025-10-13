@@ -5,6 +5,17 @@ if (!user) {
   window.location.href = "login.html";
 }
 
+// Get vendor's name from signup metadata
+const vendorName = session.user.user_metadata.name || "there";
+
+// Update your welcome message
+const welcomeText = document.getElementById("welcomeText");
+if (welcomeText) {
+  welcomeText.textContent = `Welcome ${vendorName}!`;
+}
+
+
+
 import {
   getCustomers,
   addCustomer,
