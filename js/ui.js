@@ -5,6 +5,10 @@ import {
   updateCustomer
 } from "./supabase.js";
 
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) window.location.href = 'login.html';
+
+
 const searchTab = document.getElementById("tab-search");
 const addTab = document.getElementById("tab-add");
 const searchSection = document.getElementById("search-section");
