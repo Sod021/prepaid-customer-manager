@@ -1,3 +1,10 @@
+import { getCurrentUser } from "./supabase.js";
+
+const user = await getCurrentUser();
+if (user) {
+  window.location.href = "dashboard.html";
+}
+
 import { signUp } from "./supabase.js";
 
 document.getElementById("signupBtn").onclick = async () => {
