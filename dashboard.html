@@ -10,21 +10,24 @@
 </head>
 <body class="bg-black text-white font-[Poppins] min-h-screen flex">
   <!-- Sidebar -->
-  <aside class="w-64 bg-black border-r border-white flex flex-col p-4">
-  <h1 class="text-2xl font-semibold mb-10 text-center">Prepaid Manager</h1>
-  <nav class="flex flex-col space-y-3">
-    <button id="tab-search" class="tab-btn active-tab text-left rounded px-4 py-2 hover:bg-white hover:text-black transition">
-      Search
-    </button>
-    <button id="tab-add" class="tab-btn text-left rounded px-4 py-2 hover:bg-white hover:text-black transition">
-      Add
-    </button>
-    <button id="logoutBtn" class="tab-btn text-red-400 hover:text-red-500 border-t border-white/20 mt-4">
-      Logout
-</button>
+  <aside class="w-64 bg-black border-r border-white flex flex-col justify-between h-screen p-4">
+  <div>
+    <h1 class="text-2xl font-semibold mb-10 text-center">Prepaid Manager</h1>
+    <nav class="flex flex-col space-y-3">
+      <button id="tab-search" class="tab-btn active-tab text-left rounded px-4 py-2 hover:bg-white hover:text-black transition">
+        Search
+      </button>
+      <button id="tab-add" class="tab-btn text-left rounded px-4 py-2 hover:bg-white hover:text-black transition">
+        Add
+      </button>
+    </nav>
+  </div>
 
-  </nav>
+  <button id="logoutBtn" class="tab-btn text-red-400 hover:text-red-500 border-t border-white/20 pt-3">
+    Logout
+  </button>
 </aside>
+
 
   <!-- Main Content -->
   <main class="flex-1 flex flex-col items-center justify-center p-8">
