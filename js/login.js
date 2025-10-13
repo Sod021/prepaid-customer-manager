@@ -13,7 +13,7 @@ document.getElementById("loginBtn").onclick = async () => {
 
   try {
     await signIn(email, password);
-    window.location.href = "index.html"; // redirect to main dashboard
+    window.location.href = "dashboard.html"; // redirect to main dashboard
   } catch (err) {
     errorText.textContent = err.message || "Login failed. Please check your credentials.";
     errorText.classList.remove("hidden");

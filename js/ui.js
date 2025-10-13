@@ -1,3 +1,10 @@
+import { getCurrentUser } from "./supabase.js";
+
+const user = await getCurrentUser();
+if (!user) {
+  window.location.href = "login.html";
+}
+
 import {
   getCustomers,
   addCustomer,
@@ -5,8 +12,8 @@ import {
   updateCustomer
 } from "./supabase.js";
 
-const { data: { user } } = await supabase.auth.getUser();
-if (!user) window.location.href = 'login.html';
+// const { data: { user } } = await supabase.auth.getUser();
+// if (!user) window.location.href = 'login.html';
 
 
 const searchTab = document.getElementById("tab-search");
