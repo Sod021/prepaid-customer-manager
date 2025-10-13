@@ -282,3 +282,17 @@ addButton.onclick = async () => {
 };
 
 searchInput.addEventListener("input", renderCustomers);
+
+import { signOut } from "./supabase.js";
+
+const logoutBtn = document.getElementById("logoutBtn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      await signOut();
+      window.location.href = "login.html";
+    } catch (err) {
+      alert("Logout failed: " + err.message);
+    }
+  });
+}
