@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!user) {
     window.location.href = "login.html";
   } else {
-    document.body.style.display = "block";
+    document.body.classList.add("visible");
+
 
     // Get vendor name
     const vendorName = user.user_metadata?.name || "there";
