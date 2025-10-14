@@ -1,19 +1,22 @@
 import { getCurrentUser, supabase } from "./supabase.js";
 
-// Check login status
-const user = await getCurrentUser();
-if (!user) {
-  window.location.href = "login.html";
-} 
+document.addEventListener("DOMContentLoaded", async () => {
+  const user = await getCurrentUser();
 
-// Get vendor's name from signup metadata
-const vendorName = user.user_metadata?.name || "there";
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    document.body.classList.add("visible");
 
-// Update the welcome text
-const welcomeText = document.getElementById("welcomeText");
-if (welcomeText) {
-  welcomeText.textContent = `Welcome ${vendorName}!`;
-}
+    const vendorName = user.user_metadata?.name || "there";
+    const welcomeText = document.getElementById("welcomeText");
+    if (welcomeText) {
+      welcomeText.textContent = `Welcome ${vendorName}!`;
+    }
+  }
+});
+
+
 
 
 
