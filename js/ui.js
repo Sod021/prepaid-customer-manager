@@ -4,6 +4,8 @@ import { getCurrentUser, supabase } from "./supabase.js";
 const user = await getCurrentUser();
 if (!user) {
   window.location.href = "login.html";
+} else {
+  document.body.style.display = "block";
 }
 
 // Get vendor's name from signup metadata
