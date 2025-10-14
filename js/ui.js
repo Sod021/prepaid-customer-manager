@@ -113,9 +113,15 @@ function hideSuccess() {
   setTimeout(() => popup.classList.add("hidden"), 500); // wait for fade out
 }
 
-// --- CUSTOMER RENDERING ---
+// --- CUSTOMER RENDERING WITH CACHING ---
+let cachedCustomers = []; // Global cache
+
 async function renderCustomers() {
-  const customers = await getCustomers();
+  // Fetch once and cache
+  if (cachedCustomers.length === 0) {
+    cachedCustomers = await getCustomers();
+  }
+
   const searchTerm = searchInput.value.trim().toLowerCase();
   customerTableBody.innerHTML = "";
 
@@ -125,7 +131,8 @@ async function renderCustomers() {
     return;
   }
 
-  const filtered = customers.filter(c =>
+  // Filter locally from cached list
+  const filtered = cachedCustomers.filter(c =>
     c.name.toLowerCase().includes(searchTerm) ||
     c.phone.toLowerCase().includes(searchTerm) ||
     c.meter_id.toLowerCase().includes(searchTerm) ||
@@ -158,8 +165,6 @@ async function renderCustomers() {
         </span>
       </td>
 
-      
-
       <td class="p-3 align-middle">
         <span class="inline-flex items-center gap-2">
           ${c.meter_id}
@@ -172,15 +177,12 @@ async function renderCustomers() {
         </span>
       </td>
 
-
       <td class="p-3 align-middle max-w-[100px] relative group">
         <span class="block truncate cursor-pointer">${c.meter_name || '-'}</span>
         <span class="absolute bottom-full left-0 mb-2 hidden group-hover:block bg-orange-800 text-white text-sm px-5 py-1 rounded shadow-lg whitespace-nowrap z-10">
           ${c.meter_name || '-'}
         </span>
       </td>
-
-
 
       <td class="p-3 align-middle">
         <button class="edit-btn underline" data-id="${c.id}">Edit</button>
@@ -195,11 +197,16 @@ async function renderCustomers() {
   setupCopyButtons();
 }
 
+
 // --- BUTTON ACTIONS ---
 function setupActionButtons() {
   document.querySelectorAll(".delete-btn").forEach(btn => {
     btn.onclick = async () => {
       await deleteCustomer(btn.dataset.id);
+      showSuccess("Customer deleted successfully ✅");
+      showTab("search");
+
+      cachedCustomers = await getCustomers();
       renderCustomers();
     };
   });
@@ -240,6 +247,10 @@ function setupActionButtons() {
 
         await updateCustomer(id, newName, newPhone, newMeter, newMeterName);
         hideModal();
+        showSuccess("Customer updated successfully ✅");
+        showTab("search");
+
+        cachedCustomers = await getCustomers();
         renderCustomers();
       };
     };
@@ -282,6 +293,9 @@ addButton.onclick = async () => {
   nameInput.value = phoneInput.value = meterInput.value = meterNameInput.value = "";
   showSuccess("Customer added successfully ✅");
   showTab("add");
+
+  // Refresh cache
+  cachedCustomers = await getCustomers();
 };
 
 searchInput.addEventListener("input", renderCustomers);
